@@ -7,7 +7,7 @@
  * https://github.com/danny-source/Arduino_IRremote_Daikin
  */
 
-#include <IRdaikin.h>
+#include "IRdaikin.h"
 
 
 IRdaikin irdaikin;
