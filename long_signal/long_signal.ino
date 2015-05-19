@@ -34,7 +34,7 @@ volatile  unsigned int irBuffer[maxLen]; //stores timings - volatile because cha
 volatile unsigned int x = 0; //Pointer thru irBuffer - volatile because changed by ISR
 
 void setup() {
-  Serial.begin(115200); //change BAUD rate as required
+  Serial.begin(9600); //change BAUD rate as required
   attachInterrupt(0, rxIR_Interrupt_Handler, CHANGE);//set up ISR for receiving IR signal
 }
 
