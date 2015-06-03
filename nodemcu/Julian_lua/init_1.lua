@@ -2,9 +2,10 @@
 -- heavy lifing
 
 -- Constants
-SSID    = "MYWIWIF" 		-- change to ssid
-APPWD   = "QuantumPassword"	-- change to password
+SSID    = "ssid" 		-- change to ssid
+APPWD   = "password"	-- change to password
 CMDFILE = "poll.lua"  		-- File that is executed after connection
+INTERVAL= "300000"
 
 -- Some control variables
 wifiTrys     = 0      -- Counter of trys to connect to wifi
@@ -15,7 +16,7 @@ function launch()
   print("Connected to WIFI!")
   print("IP Address: " .. wifi.sta.getip())
   -- Call our command file every minute.
-  tmr.alarm(0, 60000, 1, function() dofile(CMDFILE) end )
+  tmr.alarm(0, INTERVAL, 1, function() dofile(CMDFILE) end )
 end
 
 function checkWIFI() 
@@ -48,6 +49,6 @@ if ( ( ipAddr == nil ) or  ( ipAddr == "0.0.0.0" ) ) then
   tmr.alarm( 0 , 2500 , 0 , checkWIFI )  -- Call checkWIFI 2.5S in the future.
 else
  -- We are connected, so just run the launch code.
- launch()
+launch()
 end
 -- Drop through here to let NodeMcu run
