@@ -18,8 +18,8 @@ void setup()
   Serial.begin(9600);
  irdaikin.daikin_on();
  irdaikin.daikin_setSwing_off();
- irdaikin.daikin_setMode(1);
- irdaikin.daikin_setFan(4);//FAN speed to MAX
+ irdaikin.daikin_setMode(1); // Mode set to heat
+ irdaikin.daikin_setFan(1);//FAN speed to MIN
  irdaikin.daikin_setTemp(25);
  //----everything is ok and to execute send command-----
  irdaikin.daikin_sendCommand();

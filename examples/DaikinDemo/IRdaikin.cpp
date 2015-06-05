@@ -54,8 +54,8 @@ unsigned char daikin[COMMAND_LENGTH]     = {
 //16  17    18  19   20    21   22  23   24   25   26
 
 static byte vFanTable[] = { 0x30,0x40,0x50,0x60,0x70,0xa0,0xb0};
-//0 FAN 1 COOL 2 DRY
-static byte vModeTable[] = { 0x6,0x3,0x2};
+//0 FAN 1 HEAT 2 DRY
+static byte vModeTable[] = { 0x6,0x4,0x2};
 //
 // void IRdaikin()
 // {
