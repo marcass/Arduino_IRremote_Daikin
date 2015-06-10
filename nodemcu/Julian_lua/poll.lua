@@ -12,8 +12,9 @@
 
 
 -- Constants
-	ON	= "1"
-	OFF	= "0"
+	ON	= "state=1"
+	OFF	= "state=0"
+	
 	-- Set state for start up (off): A sensible state
 	powerstate = OFF
 	PINON	= 6	-- set pin to pullup to send on signal
@@ -22,20 +23,20 @@
 -- Setup hardware
 	-- set pins to output
 		-- set gpio "PINON" as output 
-    		gpio.mode(PINON, gpio.OUTPUT)
+    		gpio.mode(PINON, gpio.OUTPUT) -- This should be declared in init.lua
 		-- set gpio "PINOFF" as output 
-    		gpio.mode(PINOFF, gpio.OUTPUT)
+    		gpio.mode(PINOFF, gpio.OUTPUT) -- This should be declared in init.lua
     		
 -- A simple http client
-	conn=net.createConnection(net.TCP, 0) 
-	conn:on("receive", function(conn, pl)
-		if string.find(pl,"state=0") then gpio.write(PINOFF,gpio.HIGH) gpio.write(PINON,gpio.LOW) print("Turning off...") end
-   		if string.find(pl,"state=1") then gpio.write(PINON,gpio.HIGH) gpio.write(PINOFF,gpio.LOW) print("Turning on..") end
-		if string.find(pl,"null") then gpio.write(PINON, gpio.LOW) gpio.write(PINOFF, gpio.LOW) end	
-		end ) -- function ends
-	conn:connect(8000,"192.168.0.9")
-	conn:send("GET / HTTP/1.1\r\nHost: 192.168.0.9\r\n"
-	    .."Connection: keep-alive\r\nAccept: */*\r\n\r\n") -- The .. is the string concatenate string operator. 
 
 
+conn=net.createConnection(net.TCP, 0)
+conn:on("receive", function(conn, pl)
+        if string.find(pl,"state=0") then gpio.write(PINOFF, gpio.HIGH) gpio.write(PINON, gpio.LOW) print("Turning off...")
+        elseif string.find(pl,"state=1") then gpio.write(PINOFF, gpio.LOW) gpio.write(PINON, gpio.HIGH) print("Turning on...")
+        elseif string.find(pl,"") then gpio.write(PINOFF, gpio.LOW) gpio.write(PINON, gpio.LOW) print ("Sleeping...") end
 
+end)
+conn:connect(80,"192.168.0.5")
+conn:send("GET / HTTP/1.1\r\nHost: 192.168.0.5\r\n"
+    .."Connection: keep-alive\r\nAccept: */*\r\n\r\n")
