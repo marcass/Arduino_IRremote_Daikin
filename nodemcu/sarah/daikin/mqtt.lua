@@ -38,7 +38,9 @@ end
       print("Invalid - Ignoring") sleep()
     end   
 -- Need a fucniton in here that resets the pins to low after successful read at arduino
- end)  
+   tmr.delay(60000) -- sleep for 1min
+   sleep() -- pull pins down
+end)  
  function mqtt_sub()  
     m:subscribe("/home/".. RoomID .."/" .. DeviceID .. "/p1/com",0, function(conn)   
       print("Mqtt Subscribed to OpenHAB feed for device " .. DeviceID)  
