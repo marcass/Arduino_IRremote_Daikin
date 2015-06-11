@@ -16,18 +16,24 @@
 	OFF	= "state=0"
 	
 -- Setup hardwarei (this is done in init.lua)
+--Set sleep function
+--Set pin function
+function sleep()
+	gpio.write(PINOFF,gpio.LOW) gpio.write(PINON,gpio.LOW)
+	print("Sleeping...")
+end
+
 
     		
 -- A simple http client
-
-
 conn=net.createConnection(net.TCP, 0)
-conn:on("receive", function(conn, pl)
-        if string.find(pl,OFF) then gpio.write(PINOFF, gpio.HIGH) gpio.write(PINON, gpio.LOW) print("Turning off...")
+conn:on("receive", function(conn, pl)  
+	if string.find(pl,OFF) then gpio.write(PINOFF, gpio.HIGH) gpio.write(PINON, gpio.LOW) print("Turning off...")
         elseif string.find(pl,ON) then gpio.write(PINOFF, gpio.LOW) gpio.write(PINON, gpio.HIGH) print("Turning on...")
-        elseif string.find(pl,"") then gpio.write(PINOFF, gpio.LOW) gpio.write(PINON, gpio.LOW) print ("Sleeping...") end
-
+	elseif string.find(pl,"") then sleep() print ("Sleeping. No useful state fetched") end
 end)
+
 conn:connect(80,"192.168.0.5")
+        sleep() --pulls pins down in case of failed connection
 conn:send("GET / HTTP/1.1\r\nHost: 192.168.0.5\r\n"
     .."Connection: keep-alive\r\nAccept: */*\r\n\r\n")
