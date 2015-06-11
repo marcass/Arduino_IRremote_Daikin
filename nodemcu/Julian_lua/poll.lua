@@ -15,25 +15,16 @@
 	ON	= "state=1"
 	OFF	= "state=0"
 	
-	-- Set state for start up (off): A sensible state
-	powerstate = OFF
-	PINON	= 6	-- set pin to pullup to send on signal
-	PINOFF	= 5	-- set pin to pullup to send off signal
-	
--- Setup hardware
-	-- set pins to output
-		-- set gpio "PINON" as output 
-    		gpio.mode(PINON, gpio.OUTPUT) -- This should be declared in init.lua
-		-- set gpio "PINOFF" as output 
-    		gpio.mode(PINOFF, gpio.OUTPUT) -- This should be declared in init.lua
+-- Setup hardwarei (this is done in init.lua)
+
     		
 -- A simple http client
 
 
 conn=net.createConnection(net.TCP, 0)
 conn:on("receive", function(conn, pl)
-        if string.find(pl,"state=0") then gpio.write(PINOFF, gpio.HIGH) gpio.write(PINON, gpio.LOW) print("Turning off...")
-        elseif string.find(pl,"state=1") then gpio.write(PINOFF, gpio.LOW) gpio.write(PINON, gpio.HIGH) print("Turning on...")
+        if string.find(pl,OFF) then gpio.write(PINOFF, gpio.HIGH) gpio.write(PINON, gpio.LOW) print("Turning off...")
+        elseif string.find(pl,ON) then gpio.write(PINOFF, gpio.LOW) gpio.write(PINON, gpio.HIGH) print("Turning on...")
         elseif string.find(pl,"") then gpio.write(PINOFF, gpio.LOW) gpio.write(PINON, gpio.LOW) print ("Sleeping...") end
 
 end)

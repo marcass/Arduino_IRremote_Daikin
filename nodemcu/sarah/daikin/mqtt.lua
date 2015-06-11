@@ -3,14 +3,13 @@
 DeviceID="daikin"  
 RoomID="hall"  
 Broker="enter pi ip here"  
-PINON 	= "1"
-PINOFF	= "2"
--- Setup hardware
-	-- set pins to output
-		-- set gpio "PINON" as output 
-    		gpio.mode(PINON, gpio.OUTPUT)
-		-- set gpio "PINOFF" as output 
-    		gpio.mode(PINOFF, gpio.OUTPUT)
+
+-- Setup hardware (this in done in init.lua)
+
+--Set sleeping parameters
+function sleep()
+	gpio.write(PINOFF,gpio.LOW) gpio.write(PINON,gpio.LOW)
+end
 
  m = mqtt.Client("ESP8266".. DeviceID, 180, "user", "password")  
  m:lwt("/lwt", "ESP8266", 0, 0)  
@@ -36,8 +35,9 @@ PINOFF	= "2"
       gpio.write(PINOFF,gpio.HIGH) gpio.write(PINON,gpio.LOW) 
       m:publish("/home/".. RoomID .."/" .. DeviceID .. "/p1/state","OFF",0,0)  
     else  
-      print("Invalid - Ignoring") gpio.write(PINOFF,gpio.LOW) gpio.write(PINON,gpio.LOW)
+      print("Invalid - Ignoring") sleep()
     end   
+-- Need a fucniton in here that resets the pins to low after successful read at arduino
  end)  
  function mqtt_sub()  
     m:subscribe("/home/".. RoomID .."/" .. DeviceID .. "/p1/com",0, function(conn)   

@@ -4,12 +4,21 @@
 -- Constants
 SSID    = "ssid" 		-- change to ssid
 APPWD   = "password"	-- change to password
-CMDFILE = "mqtt.lua"  		-- File that is executed after connection
-INTERVAL= "300000"
+CMDFILE = "poll.lua"  		-- File that is executed after connection
+INTERVAL= "300000"  -- 5min
+PINON	= 6
+PINOFF	= 5
 
 -- Some control variables
 wifiTrys     = 0      -- Counter of trys to connect to wifi
 NUMWIFITRYS  = 200    -- Maximum number of WIFI Testings while waiting for connection
+
+-- Set pin state so it dones't turn heatpump on at power failure
+gpio.mode(PINON, gpio.OUTPUT)
+gpio.write(PINON, gpio.LOW)
+gpio.mode(PINOFF, gpio.OUTPUT)
+gpio.write(PINOFF, gpio.LOW)
+
 
 -- Change the code of this function that it calls your code.
 function launch()
