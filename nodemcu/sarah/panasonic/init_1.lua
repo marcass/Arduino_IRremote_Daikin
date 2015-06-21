@@ -3,9 +3,9 @@
 
 -- Constants
 SSID    = "ssid" 		-- change to ssid
-APPWD   = "password"	-- change to password
+APPWD   = "pass"	-- change to password
 CMDFILE = "poll.lua"  		-- File that is executed after connection
-INTERVAL= "300000"  -- 5min
+INTERVAL= "30000"  -- 3ssec
 PINON	= 6
 PINOFF	= 5
 

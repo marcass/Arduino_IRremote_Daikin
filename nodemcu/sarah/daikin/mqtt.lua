@@ -1,17 +1,10 @@
 --mqtt.lua  
- 
-DeviceID="daikin"  
-RoomID="hall"  
-Broker="enter pi ip here"  
 
--- Setup hardware (this in done in init.lua)
+DeviceID="dai"
+TypeID="heat"
+Broker="192.168.0.3"
 
---Set sleeping parameters
-function sleep()
-	gpio.write(PINOFF,gpio.LOW) gpio.write(PINON,gpio.LOW)
-end
-
- m = mqtt.Client("ESP8266".. DeviceID, 180, "user", "password")  
+ m = mqtt.Client("ESP8266".. DeviceID, 180, "", "") --Last 2 valuse "user and "password"  
  m:lwt("/lwt", "ESP8266", 0, 0)  
  m:on("offline", function(con)   
     print ("Mqtt Reconnecting...")   
@@ -27,22 +20,22 @@ end
  m:on("message", function(conn, topic, data)   
     print("Recieved:" .. topic .. ":" .. data)   
       if (data=="ON") then  
-      print("Turning on")   
-      gpio.write(PINON,gpio.HIGH)  gpio.write(PINOFF,gpio.LOW)
-      m:publish("/home/".. RoomID .."/" .. DeviceID .. "/p1/state","ON",0,0)  
+	gpio.write(PINOFF,gpio.LOW) gpio.write(PINON,gpio.HIGH)
+        print("Turning Daikin on..")
+	tmr.delay(2000000)
+	gpio.write(PINOFF,gpio.LOW) gpio.write(PINON,gpio.LOW)
     elseif (data=="OFF") then  
-      print("Turning off")   
-      gpio.write(PINOFF,gpio.HIGH) gpio.write(PINON,gpio.LOW) 
-      m:publish("/home/".. RoomID .."/" .. DeviceID .. "/p1/state","OFF",0,0)  
+	gpio.write(PINOFF,gpio.HIGH) gpio.write(PINON,gpio.LOW)
+        print("Turning Daikin off..")
+	tmr.delay(2000000)
+        gpio.write(PINOFF,gpio.LOW) gpio.write(PINON,gpio.LOW)
     else  
-      print("Invalid - Ignoring") sleep()
+      print("Invalid - Ignoring")   
+      gpio.write(PINOFF,gpio.LOW) gpio.write(PINON,gpio.LOW)
     end   
--- Need a fucniton in here that resets the pins to low after successful read at arduino
-   tmr.delay(60000) -- sleep for 1min
-   sleep() -- pull pins down
-end)  
+ end)  
  function mqtt_sub()  
-    m:subscribe("/home/".. RoomID .."/" .. DeviceID .. "/p1/com",0, function(conn)   
+    m:subscribe("home/".. TypeID .."/" .. DeviceID .. "/com",0, function(conn)   
       print("Mqtt Subscribed to OpenHAB feed for device " .. DeviceID)  
     end)  
  end  
