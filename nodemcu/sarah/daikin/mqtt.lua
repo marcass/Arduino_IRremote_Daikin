@@ -51,8 +51,8 @@ Broker="192.168.0.3"
   end  
  end)
 
---take teh temperature
-tmr.alarm(1, 30000, 1 function()
+--take teh temperature every 30s and publish for openhab to grab
+tmr.alarm(1, 30000, 1, function()
   require('ds18b20')
   -- ESP-12 GPIOO4 Mapping lua pin 2
   temp = 2

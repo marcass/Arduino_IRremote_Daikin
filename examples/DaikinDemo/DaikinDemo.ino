@@ -31,7 +31,6 @@ void turn_on()
    irdaikin.daikin_setTemp(25);
    //----everything is ok and to execute send command-----
    irdaikin.daikin_sendCommand();
-//   detachInterrupt(0);
    digitalWrite(2, LOW);
 }
 
@@ -44,15 +43,10 @@ void turn_off()
    irdaikin.daikin_setTemp(25);
    //----everything is ok and to execute send command-----
    irdaikin.daikin_sendCommand();
-/*   
-   pinMode(13, OUTPUT);
-   digitalWrite(13, HIGH);
-   delay(4000);
-   digitalWrite(13, LOW);
-*/
    digitalWrite(8, LOW);
 }
 
+/*
 void loop()
 {
   if (digitalRead(2)==HIGH && digitalRead(8)==LOW)
@@ -72,6 +66,8 @@ void loop()
        delay(100);
      }
 } 
+*/
+
 /*void loop() {
   while (Serial.available() > 0) {
 
@@ -91,3 +87,36 @@ void loop()
   }
 }
 */
+
+
+
+// constants won't change. They're used here to set pin numbers:
+const int PinOn = 2;     // the number of the pin for on
+const int PinOff = 8;     // the number of the pin for off
+const int ledPin =  13;      // the number of the LED pin
+
+// variables will change:
+int OnState = 0;         // variable for reading the pin status
+int OffState = 1;         // variable for reading the pin status
+
+void loop(){
+  // read the state of the input pin value:
+  OnState = digitalRead(PinOn);
+  OffState = digitalRead(PinOff);
+
+  // check if the pin is brought to high.
+  // if it is, the OnState|OffState is HIGH:
+  if (OnState == HIGH && OffState == LOW) {
+    // send IR signal for on:
+    turn_on();
+  }
+  else if (OffState == HIGH && OnState == LOW) {
+    // send IR signal for off:
+    turn_off();
+  }
+  else {
+    // do nothing:
+    
+  }
+}
+
