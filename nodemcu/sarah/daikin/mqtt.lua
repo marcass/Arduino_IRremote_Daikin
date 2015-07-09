@@ -4,7 +4,6 @@ DeviceID="dai"
 TypeID="heat"
 Broker="192.168.0.3"
 -- For debugging
-local heap = node.heap
 
  m = mqtt.Client("ESP8266".. DeviceID, 180, "", "") --Last 2 values are "user and "password" for broker
  m:lwt("/lwt", "ESP8266", 0, 0)  
@@ -22,7 +21,8 @@ local heap = node.heap
  end)  
 --debug
 print("Subscription begin after being offline")
-print(heap())
+printi(node.heap())
+
 
  -- on publish message receive event  
  m:on("message", function(conn, topic, data)   
@@ -44,7 +44,7 @@ print(heap())
  end)  
 --debug
 print("Subscription received")
-print(heap())
+print(node.heap())
 
 --do the sudbscribption business
  tmr.alarm(0, 1000, 1, function()  
@@ -60,7 +60,7 @@ print(heap())
   end  
  end)
 print("Subscription begin")
-print(heap())
+print(node.heap())
 
 --take the temperature every 30s and publish for openhab to grab
 tmr.alarm(1, 30000, 1, function()
@@ -73,11 +73,11 @@ tmr.alarm(1, 30000, 1, function()
   m:publish("home/temp/"..DeviceID.."",t1,0,0, function(conn) print("sent temp="..t1.."C") end)
   --debug
   print("temp loaded")
-  print(heap())
+  print(node.heap())
   --release after use
   ds18b20 = nil
   package.loaded["ds18b20"]=nil
   --debug
   print("temp unloaded")
-  print(heap())
+  print(node.heap())
 end)
