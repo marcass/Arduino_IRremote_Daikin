@@ -20,22 +20,18 @@ gpio.mode(PINOFF, gpio.OUTPUT)
 gpio.write(PINOFF, gpio.LOW)
 
 
--- Change the code of this function that it calls your code.
-function launch()
-  print("Connected to WIFI!")
-  print("IP Address: " .. wifi.sta.getip())
-  -- Call our command file every minute.
-  tmr.alarm(0, INTERVAL, 1, function() dofile(CMDFILE) end )
-end
-
 function checkWIFI() 
   if ( wifiTrys > NUMWIFITRYS ) then
     print("Sorry. Not able to connect")
   else
     ipAddr = wifi.sta.getip()
     if ( ( ipAddr ~= nil ) and  ( ipAddr ~= "0.0.0.0" ) )then
-      -- lauch()        -- Cannot call directly the function from here the timer... NodeMcu crashes...
-      tmr.alarm( 1 , 500 , 0 , launch )
+      tmr.alarm( 1 , 500 , 0 , function()
+	  --launch file
+	  print("Connected to WIFI!")
+	  print("IP Address: " .. wifi.sta.getip())
+	  dofile(CMDFILE)
+      end )
     else
       -- Reset alarm again
       tmr.alarm( 0 , 2500 , 0 , checkWIFI)
@@ -58,6 +54,8 @@ if ( ( ipAddr == nil ) or  ( ipAddr == "0.0.0.0" ) ) then
   tmr.alarm( 0 , 2500 , 0 , checkWIFI )  -- Call checkWIFI 2.5S in the future.
 else
  -- We are connected, so just run the launch code.
-launch()
+  print("Connected to WIFI!")
+  print("IP Address: " .. wifi.sta.getip())
+  dofile(CMDFILE)
 end
 -- Drop through here to let NodeMcu run

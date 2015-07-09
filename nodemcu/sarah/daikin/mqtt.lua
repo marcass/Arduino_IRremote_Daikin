@@ -3,18 +3,26 @@
 DeviceID="dai"
 TypeID="heat"
 Broker="192.168.0.3"
+-- For debugging
+local heap = node.heap
 
- m = mqtt.Client("ESP8266".. DeviceID, 180, "", "") --Last 2 valuse "user and "password"  
+ m = mqtt.Client("ESP8266".. DeviceID, 180, "", "") --Last 2 values are "user and "password" for broker
  m:lwt("/lwt", "ESP8266", 0, 0)  
  m:on("offline", function(con)   
     print ("Mqtt Reconnecting...")   
-    tmr.alarm(1, 10000, 0, function()  
+    tmr.alarm(1, 1000, 0, function()  
       m:connect(Broker, 1883, 0, function(conn)   
         print("Mqtt Connected to:" .. Broker)  
-        mqtt_sub() --run the subscription function  
+        --run the subscription function  
+        m:subscribe("home/".. TypeID .."/" .. DeviceID .. "/com",0, function(conn)
+        print("Mqtt Subscribed to OpenHAB feed for device " .. DeviceID)
+	end)
       end)  
     end)  
  end)  
+--debug
+print("Subscription begin after being offline")
+print(heap())
 
  -- on publish message receive event  
  m:on("message", function(conn, topic, data)   
@@ -34,11 +42,9 @@ Broker="192.168.0.3"
       gpio.write(PINOFF,gpio.LOW) gpio.write(PINON,gpio.LOW)
     end   
  end)  
- function mqtt_sub()  
-    m:subscribe("home/".. TypeID .."/" .. DeviceID .. "/com",0, function(conn)   
-      print("Mqtt Subscribed to OpenHAB feed for device " .. DeviceID)  
-    end)  
- end  
+--debug
+print("Subscription received")
+print(heap())
 
 --do the sudbscribption business
  tmr.alarm(0, 1000, 1, function()  
@@ -46,12 +52,17 @@ Broker="192.168.0.3"
     tmr.stop(0)  
     m:connect(Broker, 1883, 0, function(conn)   
       print("Mqtt Connected to:" .. Broker)  
-      mqtt_sub() --run the subscription function  
+      --run the subscription function  
+      m:subscribe("home/".. TypeID .."/" .. DeviceID .. "/com",0, function(conn)
+      print("Mqtt Subscribed to OpenHAB feed for device " .. DeviceID)
+      end)
     end)  
   end  
  end)
+print("Subscription begin")
+print(heap())
 
---take teh temperature every 30s and publish for openhab to grab
+--take the temperature every 30s and publish for openhab to grab
 tmr.alarm(1, 30000, 1, function()
   require('ds18b20')
   -- ESP-12 GPIOO4 Mapping lua pin 2
@@ -60,7 +71,13 @@ tmr.alarm(1, 30000, 1, function()
   t1=ds18b20.read()
   t1=ds18b20.read()
   m:publish("home/temp/"..DeviceID.."",t1,0,0, function(conn) print("sent temp="..t1.."C") end)
+  --debug
+  print("temp loaded")
+  print(heap())
   --release after use
   ds18b20 = nil
   package.loaded["ds18b20"]=nil
+  --debug
+  print("temp unloaded")
+  print(heap())
 end)
