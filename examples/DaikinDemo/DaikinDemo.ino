@@ -46,49 +46,6 @@ void turn_off()
    digitalWrite(8, LOW);
 }
 
-/*
-void loop()
-{
-  if (digitalRead(2)==HIGH && digitalRead(8)==LOW)
-     {
-       turn_on();
-       delay(1000);
-       digitalWrite(2, LOW);
-     }
-  else if (digitalRead(8)==HIGH && digitalRead(2)==LOW)
-     {
-       turn_off();
-       delay(1000);
-       digitalWrite(8, LOW);
-     }
-   else
-     { 
-       delay(100);
-     }
-} 
-*/
-
-/*void loop() {
-  while (Serial.available() > 0) {
-
-    if (Serial.read() == '\n') {
-        if (isOn == 0){
-          isOn = 1;
-          irdaikin.daikin_off();
-          Serial.println("Turn Off");
-        }else{
-          isOn = 0;
-          irdaikin.daikin_on();
-          Serial.println("Turn On");
-        }
-        irdaikin.daikin_sendCommand();
-        Serial.println("Execute Command!");
-    }
-  }
-}
-*/
-
-
 
 // constants won't change. They're used here to set pin numbers:
 const int PinOn = 2;     // the number of the pin for on
@@ -109,6 +66,7 @@ void loop(){
   if (OnState == HIGH && OffState == LOW) {
     // send IR signal for on:
     turn_on();
+//    delay(1000);
   }
   else if (OffState == HIGH && OnState == LOW) {
     // send IR signal for off:
