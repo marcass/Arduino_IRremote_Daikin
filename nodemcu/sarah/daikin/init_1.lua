@@ -2,25 +2,27 @@
 -- heavy lifing
 
 -- Constants
-SSID    = "ssid" 		-- change to ssid
-APPWD   = "password"	-- change to password
-CMDFILE = "poll.lua"  		-- File that is executed after connection
-INTERVAL= "30000"  -- 3ssec
-PINON	= 6
-PINOFF	= 5
+--SSID    = "" 		-- change to ssid
+--APPWD   = ""	-- change to password
+--CMDFILE = "poll.lua"  		-- File that is executed after connection
+--INTERVAL= "30000"  -- 3ssec
+--PINON	= 6
+--PINOFF	= 5
 
 -- Some control variables
-wifiTrys     = 0      -- Counter of trys to connect to wifi
-NUMWIFITRYS  = 200    -- Maximum number of WIFI Testings while waiting for connection
+--wifiTrys     = 0      -- Counter of trys to connect to wifi
+--NUMWIFITRYS  = 200    -- Maximum number of WIFI Testings while waiting for connection
 
 -- Set pin state so it dones't turn heatpump on at power failure
-gpio.mode(PINON, gpio.OUTPUT)
-gpio.write(PINON, gpio.LOW)
-gpio.mode(PINOFF, gpio.OUTPUT)
-gpio.write(PINOFF, gpio.LOW)
+gpio.mode(6, gpio.OUTPUT)
+gpio.write(6, gpio.LOW)
+gpio.mode(5, gpio.OUTPUT)
+gpio.write(5, gpio.LOW)
 
 
 function checkWIFI() 
+  wifiTrys     = 0      -- Counter of trys to connect to wifi
+  NUMWIFITRYS  = 200    -- Maximum number of WIFI Testings while waiting for connection
   if ( wifiTrys > NUMWIFITRYS ) then
     print("Sorry. Not able to connect")
   else
@@ -30,7 +32,7 @@ function checkWIFI()
 	  --launch file
 	  print("Connected to WIFI!")
 	  print("IP Address: " .. wifi.sta.getip())
-	  dofile(CMDFILE)
+	  dofile("poll.lua")
       end )
     else
       -- Reset alarm again
@@ -39,6 +41,9 @@ function checkWIFI()
       wifiTrys = wifiTrys + 1
     end 
   end 
+wifiTrys     = nil      -- Counter of trys to connect to wifi
+NUMWIFITRYS  = nil    -- Maximum number of WIFI Testings while waiting for connection
+ipAddr       = nil
 end
 
 print("-- Starting up! ")
@@ -49,13 +54,17 @@ if ( ( ipAddr == nil ) or  ( ipAddr == "0.0.0.0" ) ) then
   -- We aren't connected, so let's connect
   print("Configuring WIFI....")
   wifi.setmode( wifi.STATION )
-  wifi.sta.config( SSID , APPWD)
+--put wifi details in here
+  wifi.sta.config( "ssid", "p/w")
   print("Waiting for connection")
   tmr.alarm( 0 , 2500 , 0 , checkWIFI )  -- Call checkWIFI 2.5S in the future.
 else
  -- We are connected, so just run the launch code.
   print("Connected to WIFI!")
   print("IP Address: " .. wifi.sta.getip())
-  dofile(CMDFILE)
+  dofile("poll.lua")
 end
+ipAddr = nil
 -- Drop through here to let NodeMcu run
+print("Post connection")
+print(node.heap())
