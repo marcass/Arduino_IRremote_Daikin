@@ -53,7 +53,7 @@ void loop(){
       // altered the code just to send/test my raw code
       irsend.sendRaw(raw,105,40);
       Serial.println("IR raw sent");
-      delay(2000);
+//      delay(2000);
     }
     else {
     // do nothing
@@ -70,7 +70,7 @@ void loop(){
       // altered the code just to send/test my raw code
       irsend.sendRaw(raw,69,40);
       Serial.println("IR raw sent");
-      delay(2000);;
+//      delay(2000);;
     }
     else {
     // do nothing
@@ -87,7 +87,7 @@ void loop(){
       // altered the code just to send/test my raw code
       irsend.sendRaw(raw,531,40);
       Serial.println("IR raw sent");
-      delay(2000);
+//      delay(2000);
     }  
     else {
     // do nothing
@@ -103,7 +103,7 @@ void loop(){
       // altered the code just to send/test my raw code
       irsend.sendRaw(raw,465,40);
       Serial.println("IR raw sent");
-      delay(2000);
+//      delay(2000);
     }
     else {
     // do nothing
