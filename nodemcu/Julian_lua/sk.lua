@@ -1,7 +1,7 @@
 
 --Constants
-local	ON	= "1\r\n1" --variable returned in webpage
-local	OFF	= "1\r\n\0" --variable returned in webpage
+local	ON	= "|~1" --variable returned in webpage
+local	OFF	= "|~0" --variable returned in webpage
 	
 local  cox = "9ca270d7-5458-3b28-b70c-f25b9ae005d5"
 
