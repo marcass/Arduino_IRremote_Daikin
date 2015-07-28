@@ -9,9 +9,9 @@ gpio.write(5, gpio.LOW)
 
 
 function checkWIFI() 
-local  wifiTrys     = 0      -- Counter of trys to connect to wifi
-local  NUMWIFITRYS  = 200    -- Maximum number of WIFI Testings while waiting for connection
-  if ( wifiTrys > NUMWIFITRYS ) then
+local  a     = 0      -- Counter of trys to connect to wifi
+local  b  = 200    -- Maximum number of WIFI Testings while waiting for connection
+  if ( a > b ) then
     print("Sorry. Not able to connect")
   else
     if ( ( wifi.sta.getip() ~= nil ) and  ( wifi.sta.getip() ~= "0.0.0.0" ) )then
@@ -22,8 +22,8 @@ local  NUMWIFITRYS  = 200    -- Maximum number of WIFI Testings while waiting fo
     else
       -- Reset alarm again
       tmr.alarm( 0 , 2500 , 0 , checkWIFI)
-      print("Checking WIFI..." .. wifiTrys)
-      wifiTrys = wifiTrys + 1
+      print("Checking WIFI..." .. a)
+      local a = a + 1
     end 
   end 
 end
@@ -41,9 +41,6 @@ if ( ( wifi.sta.getip() == nil ) or  ( wifi.sta.getip() == "0.0.0.0" ) ) then
   tmr.alarm( 0 , 2500 , 0 , checkWIFI )  -- Call checkWIFI 2.5S in the future.
 else
  -- We are connected, so just run the launch code.
-  --clear variables
-  wifiTrys     = nil      -- Counter of trys to connect to wifi
-  NUMWIFITRYS  = nil    -- Maximum number of WIFI Testings while waiting for connection
   print("IP Address: " .. wifi.sta.getip())
 
 -- allow 5s for garbage to be collected
