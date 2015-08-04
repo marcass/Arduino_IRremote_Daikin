@@ -7,7 +7,7 @@ print("client variable in mem")
 print(node.heap())
 
 
- m:lwt("lwt", "daikin", 0, 0)  
+ m:lwt("daikin", "offline", 0, 0)  
  m:on("offline", function(conn)   
 	--do the subscription business
 	print("MQTT reconnecting")
