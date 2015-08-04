@@ -1,5 +1,5 @@
 
-## Heatpump control using library from Danny
+## Heatpump control using daikin library from Danny
 
 See the [wiki](https://github.com/marcass/Heatpump_IRremote_nodemcu/wiki) for more detail
 
