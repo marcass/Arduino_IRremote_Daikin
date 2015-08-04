@@ -1,6 +1,8 @@
 
 ## Heatpump control using library from Danny
 
+See the [wiki](https://github.com/marcass/Heatpump_IRremote_nodemcu/wiki) for more detail
+
 Uses MQTT to communicate with OpenHab (prviding a web, android and iOS client). Requrires and arduino for sending the ir signal (to get timing for signal transmission) and an ESP8266 module for communication. I'm using version 12 of the ESP module due to the greater number of IO pins.
 
 ESP modules running NodeMCU with code that is inelegant due to my pitiful attemps to concerve memory in the code.
