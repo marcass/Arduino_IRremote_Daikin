@@ -15,4 +15,3 @@ else
       gpio.write(5,gpio.LOW) gpio.write(6,gpio.LOW)
 end
 h = nil
-print(node.heap())

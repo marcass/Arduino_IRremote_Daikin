@@ -1,15 +1,14 @@
 --mqtt.lua  
 
-print("prelaunch")
-print(node.heap())
-m = mqtt.Client("ESP8266 daikin", 180, "", "") --Last 2 values are user and password for broker
-print("client variable in mem")
-print(node.heap())
+m = mqtt.Client("ESP8266 scott", 180, "", "") --Last 2 values are user and password for broker
 
-
- m:lwt("lwt", "daikin", 0, 0)  
- m:on("offline", function(con)   
-  dofile("offline.lua")
+ m:lwt("scott", "offline", 0, 0)  
+ m:on("offline", function(conn)   
+	--do the subscription business
+	print("MQTT reconnecting")
+	tmr.alarm(2, 1000, 1, function()
+   	dofile("sub.lua")
+ 	end)
  end)  
 
  -- on publish message receive event  
@@ -23,17 +22,9 @@ print(node.heap())
   print(node.heap())
  end)  
 
---do the sudbscribption business
+--do the subscription business
  tmr.alarm(0, 1000, 1, function()  
    dofile("sub.lua")
  end)
 
---take the temperature every 10s if enough memory and publish for openhab to grab
-tmr.alarm(1, 10000, 1, function()
-  if node.heap() > 10500 then
-	dofile("temp.lua")
-   	m:publish("home/temp/s/state",t,0,0, function(conn)
-   	end )
-  end
-end)
 
