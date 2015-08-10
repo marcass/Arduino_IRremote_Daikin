@@ -1,11 +1,6 @@
 --mqtt.lua  
 
-print("prelaunch")
-print(node.heap())
 m = mqtt.Client("ESP8266 scott", 180, "", "") --Last 2 values are user and password for broker
-print("client variable in mem")
-print(node.heap())
-
 
  m:lwt("scott", "offline", 0, 0)  
  m:on("offline", function(conn)   
