@@ -1,12 +1,12 @@
 --mqtt.lua  
 
-m = mqtt.Client("ESP8266 daikin", 180, "", "") --Last 2 values are user and password for broker
+m = mqtt.Client("ESP8266 pana", 180, "", "") --Last 2 values are user and password for broker
 
  m:lwt("panasonic", "offline", 0, 0)  
    m:on("offline", function(con)   
 	print(node.heap())
 	--do the subscrption business
- 	tmr.alarm(0, 1000, 1, function()
+ 	tmr.alarm(2, 1000, 1, function()
    	dofile("sub.lua")
    end)
  end)  
