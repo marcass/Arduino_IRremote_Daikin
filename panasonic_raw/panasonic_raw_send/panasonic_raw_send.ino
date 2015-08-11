@@ -22,12 +22,13 @@ void setup()
  digitalWrite(8, LOW);
  Serial.begin(9600);
  Serial.println("IR Demo raw send a harvested cmd to Panasonic heatpump");
+ pinMode(13, OUTPUT);
 }
 
 // constants won't change. They're used here to set pin numbers:
 const int PinOn = 2;     // the number of the pin for on
 const int PinOff = 8;     // the number of the pin for off
-const int ledPin =  13;      // the number of the LED pin
+
 
 // variables will change:
 int OnState = 0;         // variable for reading the pin status
@@ -52,6 +53,9 @@ void loop(){
       // send IR signal for on:
       // altered the code just to send/test my raw code
       irsend.sendRaw(raw,105,40);
+      digitalWrite(13, HIGH);
+      delay(500);
+      digitalWrite(13, LOW);
       Serial.println("IR raw sent");
 //      delay(2000);
     }

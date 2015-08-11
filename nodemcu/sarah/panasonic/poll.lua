@@ -15,13 +15,12 @@ m = mqtt.Client("ESP8266 pana", 180, "", "") --Last 2 values are user and passwo
  m:on("message", function(conn, topic, data)  
   if (data == "ON") then
       gpio.write(5,gpio.LOW) gpio.write(6,gpio.HIGH)
-      print("Turning panasonic on..")
+      print("Toggling panasonic..")
       gpio.write(5,gpio.LOW) gpio.write(6,gpio.LOW)
   else
       print("Invalid, ignoring")
       gpio.write(5,gpio.LOW) gpio.write(6,gpio.LOW)
   end
-  print(node.heap())
  end)  
 
 --do the subscription business
