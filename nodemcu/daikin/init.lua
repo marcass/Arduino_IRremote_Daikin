@@ -1,14 +1,15 @@
 -- init.lua 
 
 -- set variables
-ssid	= 	--ssid of wifi
-pass	=	--wifi password
-broker	= 	--url/ip of broker
-buser 	= 	--broker username
-bpass 	= 	--broker password
-lwttop 	= 	--last will and testament topic
-htop	=	--heating topic
-ttop	= 	--temperature topic
+local ssid	= "" 	--ssid of wifi
+local pass	= ""	--wifi password
+broker	= ""	--url/ip of broker
+id	= ""
+buser 	= ""	--broker username
+bpass 	= ""	--broker password
+lwttop 	= ""	--last will and testament topic
+htop	= ""	--heating topic
+ttop	= ""	--temperature topic
 pinon	= 6	--gpio pin to pull high on "ON"
 pinoff	= 5	--gpio pin to pull high on "OFF"
 
