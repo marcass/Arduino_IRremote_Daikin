@@ -1,11 +1,23 @@
--- init.lua script with timers that wait for wifi connection before executing 
--- heavy lifing
+-- init.lua 
 
--- Set pin state so it dones't turn heatpump on at power failure
-gpio.mode(6, gpio.OUTPUT)
-gpio.write(6, gpio.LOW)
-gpio.mode(5, gpio.OUTPUT)
-gpio.write(5, gpio.LOW)
+-- set variables
+ssid	= 	--ssid of wifi
+pass	=	--wifi password
+broker	= 	--url/ip of broker
+buser 	= 	--broker username
+bpass 	= 	--broker password
+lwttop 	= 	--last will and testament topic
+htop	=	--heating topic
+ttop	= 	--temperature topic
+pinon	= 6	--gpio pin to pull high on "ON"
+pinoff	= 5	--gpio pin to pull high on "OFF"
+
+
+-- Set pin state so it doesn't turn heatpump on at power failure
+gpio.mode(pinon, gpio.OUTPUT)
+gpio.write(pinon, gpio.LOW)
+gpio.mode(pinoff, gpio.OUTPUT)
+gpio.write(pinoff, gpio.LOW)
 
 -- set counter variables
 local  a  = 0      -- Counter of trys to connect to wifi
@@ -38,7 +50,7 @@ if ( ( wifi.sta.getip() == nil ) or  ( wifi.sta.getip() == "0.0.0.0" ) ) then
   print("Configuring WIFI....")
   wifi.setmode( wifi.STATION )
 --put wifi details in here
-  wifi.sta.config( "ssid", "password")
+  wifi.sta.config(ssid, pass)
   print("Waiting for connection")
   tmr.alarm( 0 , 2500 , 0 , checkWIFI )  -- Call checkWIFI 2.5S in the future.
 else
@@ -46,11 +58,7 @@ else
   print("IP Address: " .. wifi.sta.getip())
   a = nil
   b = nil
-
--- allow 5s for garbage to be collected
-  tmr.alarm(0, 5000, 0, function()
-	dofile("poll.lua")
-  end)
+  dofile("poll.lua")
 end
 
 

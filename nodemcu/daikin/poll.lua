@@ -1,14 +1,8 @@
 --mqtt.lua  
 
-print("prelaunch")
-print(node.heap())
-m = mqtt.Client("ESP8266 scott", 180, "", "") --Last 2 values are user and password for broker
-print("client variable in mem")
-print(node.heap())
-
-
- m:lwt("scott", "offline", 0, 0)  
- m:on("offline", function(conn)   
+m = mqtt.Client(id, 180, buser, bpass) 
+m:lwt(lwttop, "offline", 0, 0)  
+m:on("offline", function(conn)   
 	--do the subscription business
 	print("MQTT reconnecting")
 	tmr.alarm(2, 1000, 1, function()
@@ -24,7 +18,6 @@ print(node.heap())
 	h = 0
   end
   dofile("switch.lua")	
-  print(node.heap())
  end)  
 
 --do the subscription business
