@@ -4,7 +4,7 @@
 local ssid	= "" 	--ssid of wifi
 local pass	= ""	--wifi password
 broker	= ""	--url/ip of broker
-id	= ""
+id	= ""	--client id for mqtt
 buser 	= ""	--broker username
 bpass 	= ""	--broker password
 lwttop 	= ""	--last will and testament topic
