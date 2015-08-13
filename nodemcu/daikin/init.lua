@@ -1,18 +1,11 @@
 -- init.lua 
 
--- set variables
-local ssid	= "" 	--ssid of wifi
+-- due to memory constraints set variables following variables in this file:
+local ssid 	= ""	--ssid of wifi
 local pass	= ""	--wifi password
-broker	= ""	--url/ip of broker
-id	= ""	--client id for mqtt
-buser 	= ""	--broker username
-bpass 	= ""	--broker password
-lwttop 	= ""	--last will and testament topic
-htop	= ""	--heating topic
-ttop	= ""	--temperature topic
+
 pinon	= 6	--gpio pin to pull high on "ON"
 pinoff	= 5	--gpio pin to pull high on "OFF"
-
 
 -- Set pin state so it doesn't turn heatpump on at power failure
 gpio.mode(pinon, gpio.OUTPUT)
