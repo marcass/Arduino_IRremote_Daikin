@@ -37,7 +37,8 @@ tmr.alarm(0, 1000, 1, function()
   --check ip status and subscribe
   if wifi.sta.status() == 5 and wifi.sta.getip() ~= nil then
     tmr.stop(0)
-    m:connect("<broker url/ip>", 8883, 1, function(conn)
+    --for secure use m:connect("<broker url/ip>", 8883, 1, function(conn)
+    m:connect("<broker url/ip>", 1883, 0, function(conn)
       tmr.stop(4)
       --heating topic
       m:subscribe("<heatpump topic>",1, function(conn)
