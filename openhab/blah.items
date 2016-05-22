@@ -1,0 +1,8 @@
+Switch dai_on {mqtt=">[broker:sarah/dai/com:command:ON:ON], <[broker:sarah/dai/com:command:OFF]", autoupdate="false"}
+Switch dai_off {mqtt=">[broker:sarah/dai/com:command:ON:OFF]", autoupdate="false"}
+
+Switch fuj_on {mqtt=">[broker:sarah/fuj/com:command:ON:ON], <[broker:sarah/fuj/com:command:OFF]", autoupdate="false"}
+Switch fuj_off {mqtt=">[broker:sarah/fuj/com:command:ON:OFF]", autoupdate="false"}
+
+Number Kitch_temp "Dining temp [%.1f °C]" <temperature> {mqtt="<[broker:sarah/temp/kitch/state:state:default]"}
+Number Hall_temp "Hall temp [%.1f °C]" <temperature> {mqtt="<[broker:sarah/temp/hall/state:state:default]"}

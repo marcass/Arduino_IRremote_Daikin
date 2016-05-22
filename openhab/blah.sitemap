@@ -1,0 +1,21 @@
+sitemap sarah label="Sarah's heat"
+{
+
+   Frame label="Heatpumps" {
+     Switch item=dai_on         label="Dining heatpump" mappings=[ON="On"]
+     Switch item=dai_off        label="Dining heatpump" mappings=[ON="Off"]
+     Text item=Kitch_temp
+     Switch item=fuj_on         label="Hall heatpump" mappings=[ON="On"]
+     Switch item=fuj_off        label="Hall heatpump" mappings=[ON="Off"]
+     Text item=Hall_temp
+   }
+
+   Frame label="Kitchen temp" {
+        Chart label="Last 4hrs" item=Kitch_temp period=4h refresh=30000
+   }
+
+   Frame label="Hall temp" {
+        Chart label="Last 4hrs" item=Hall_temp period=4h refresh=30000
+        }
+}
+
