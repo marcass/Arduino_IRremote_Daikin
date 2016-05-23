@@ -37,13 +37,13 @@ void loop()
       // MODE: MODE_AUTO, MODE_HEAT, MODE_COOL, MODE_DRY, MODE_FAN
       // FAN: FAN_AUTO, FAN_1, FAN_2, FAN_3, FAN_4
       digitalWrite(LED, HIGH);
-      heatpumpIR->send(irSender, POWER_ON, MODE_HEAT, FAN_AUTO, temp, VDIR_UP, HDIR_AUTO);
+      heatpumpIR->send(irSender, POWER_ON, MODE_HEAT, FAN_1, temp, VDIR_UP, HDIR_AUTO);
     }
     if (OnState == LOW && OffState == HIGH) {
       digitalWrite(LED, LOW);
-      heatpumpIR->send(irSender, POWER_OFF, MODE_HEAT, FAN_AUTO, temp, VDIR_UP, HDIR_AUTO);
+      heatpumpIR->send(irSender, POWER_OFF, MODE_HEAT, FAN_1, temp, VDIR_UP, HDIR_AUTO);
     }
     delay(10);
-  }
 }
+
 
