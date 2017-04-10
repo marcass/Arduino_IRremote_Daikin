@@ -12,9 +12,9 @@
 --client id for mqtt
 --broker username
 --broker password
-m = mqtt.Client("<mqtt id>", 180, "<mqtt user>", "<mqtt pass>") 
+m = mqtt.Client("dia", 180, "<mqtt user>", "<mqtt pass>") 
 --last will and testament topic
-m:lwt("<lwt topic>", "offline", 0, 0)  
+m:lwt("lwt/dia", "offline", 0, 0)  
 m:on("offline", function(conn)   
   --do the subscription business
   print("MQTT reconnecting")
@@ -38,10 +38,10 @@ tmr.alarm(0, 1000, 1, function()
   if wifi.sta.status() == 5 and wifi.sta.getip() ~= nil then
     tmr.stop(0)
     --for secure use m:connect("<broker url/ip>", 8883, 1, function(conn)
-    m:connect("<broker url/ip>", 1883, 0, function(conn)
+    m:connect("192.168.1.100", 1883, 0, function(conn)
       tmr.stop(4)
       --heating topic
-      m:subscribe("<heatpump topic>",1, function(conn)
+      m:subscribe("sarah/dai/com",1, function(conn)
       end)
       --take the temperature every 10s if enough memory and publish for openhab to grab
       print("start temp") print(node.heap())
@@ -49,7 +49,7 @@ tmr.alarm(0, 1000, 1, function()
         n = require("ds18b20")
         t = n.read()
         --temperature topic
-        m:publish("<temp topic>",t,0,0, function(conn)
+        m:publish("sarah/temp/kitch/state",t,0,0, function(conn)
           print(t.."C")
         end)
         n = nil
